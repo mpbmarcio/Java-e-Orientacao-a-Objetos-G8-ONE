@@ -41,7 +41,7 @@ public class Desafio extends JFrame {
         JLabel lbSaldo = new JLabel("Saldo:");
         lbSaldo.setBounds(10, 110, 90, 20);
 
-        JTextField tfSaldo = new JTextField(""+c.getSaldo());
+        JTextField tfSaldo = new JTextField(dinheiro.format(c.getSaldo()));
         tfSaldo.setBounds(100, 110, 290, 20);
         tfSaldo.setHorizontalAlignment(JTextField.RIGHT);
         tfSaldo.setEditable(false);
