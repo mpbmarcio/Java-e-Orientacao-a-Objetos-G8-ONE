@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -106,7 +107,7 @@ public class Desafio extends JFrame {
                         try {
                             String valor = JOptionPane.showInputDialog("Digite o valor a ser creditado!");
                             valor = valor.replaceAll( "," , "." );
-                            c.setSaldo(c.getSaldo() + Double.parseDouble(valor));
+                            c.setSaldo(""+(c.getSaldo().add(new BigDecimal(valor))));
                             tfSaldo.setText(dinheiro.format(c.getSaldo()));
 
                             model.addElement(dt.dataHora());
@@ -123,13 +124,16 @@ public class Desafio extends JFrame {
                         try {
                             String valor = JOptionPane.showInputDialog("Digite o valor a ser debitado!");
                             valor = valor.replaceAll( "," , "." );
-                            c.setSaldo(c.getSaldo() - Double.parseDouble(valor));
-                            tfSaldo.setText(""+dinheiro.format(c.getSaldo()));
+                            if (c.transferir(valor)) {
+                                tfSaldo.setText(dinheiro.format(c.getSaldo()));
 
-                            model.addElement(dt.dataHora());
-                            model.addElement("Débito de: " + dinheiro.format(Double.parseDouble(valor)) + " D");
-                            model.addElement("Saldo: " + dinheiro.format(c.getSaldo()));
-                            model.addElement("------------------------------------------------------------");
+                                model.addElement(dt.dataHora());
+                                model.addElement("Débito de: " + dinheiro.format(Double.parseDouble(valor)) + " D");
+                                model.addElement("Saldo: " + dinheiro.format(c.getSaldo()));
+                                model.addElement("------------------------------------------------------------");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Saldo Insuficiente! :(");
+                            }
                         } catch (NumberFormatException erro){
                             JOptionPane.showMessageDialog(null, "Valor incorreto, tente novamente!");
                             System.out.println(erro);
